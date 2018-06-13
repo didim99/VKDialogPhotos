@@ -6,6 +6,26 @@
 	DESCRIPTION: Скрипт для загрузки изображений из диалогов и бесед ВКонтакте посредством VK API
 */
 
+/* debug timer example
+
+$time1 = (float) microtime(true); //debug timer start
+
+$time2 = (float) microtime(true); //debug timer stop
+$time = number_format($time2-$time1, 6);
+print_pre2 ($time, "time");
+
+RAM counter example
+
+$mem0 = memory_get_usage(); //DEBUG: memory usage counter start
+
+$mem1 = memory_get_usage(); //DEBUG: memory usage counter stop
+//DEBUG: memory usage counter print
+print_pre2 (format_bytes($mem1 - $mem0, 4), "RAM");
+
+*/
+
+
+
 // ######## ОБЩЕГО НАЗНАЧЕНИЯ ################################
 
 // Переводит время из числового формата в строковый
@@ -106,26 +126,38 @@ function DPHOTO_is_method_success ($response) {
 
 
 
-// Находит и загружает все фотографии из укащзанного диалога/беседы
-function DPHOTO_get_photos ($id) {
-	global $DPHOTO;
-	
-	set_log ("D", "Scanning dialog: $id");
-	$is_chat = false;
-	
-	// Получаем имя собеседника или название беседы
-	if ($id > $DPHOTO['chat_max_id']) {
+// Получает имя собеседника или название беседы
+function DPHOTO_get_dialog_title ($id, $is_chat) {
+	$title = NULL;
+
+	if ($is_chat) {
+	$response = DPHOTO_get_api_method ("messages.getChat", ['chat_id' => $id]);
+	if (DPHOTO_is_method_success ($response))
+		$title = $response['response']['title'];
+	} else {
 		$response = DPHOTO_get_api_method ("users.get", ['user_ids' => $id]);
 		if (DPHOTO_is_method_success ($response)) {
 			$response = $response['response'][0];
 			$title = $response['first_name']. " ". $response['last_name'];
 		}
-	} else {
-		$is_chat = true;
-		$response = DPHOTO_get_api_method ("messages.getChat", ['chat_id' => $id]);
-		if (DPHOTO_is_method_success ($response))
-			$title = $response['response']['title'];
 	}
+	
+	return $title;
+}
+
+
+
+// Находит и загружает все фотографии из укащзанного диалога/беседы
+function DPHOTO_get_photos ($id) {
+	global $DPHOTO;
+	
+	set_log ("D", "Scanning dialog: $id");
+	
+	// Получаем имя собеседника или название беседы
+	$is_chat = (is_string($id) && strpos($id, "c") === 0);
+	if ($is_chat)
+		$id = (int) substr($id, 1);
+	$title = DPHOTO_get_dialog_title ($id, $is_chat);
 	
 	if ($title) {
 		set_log ("D", "Dialog name: $title");

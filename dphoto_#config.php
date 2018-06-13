@@ -10,7 +10,7 @@ error_reporting(E_ALL & ~E_NOTICE);
 
 // основные переменные
 $datetime = date("Y-m-d H:i:s");
-$DPHOTO['ver'] = "0.2"; // didim99 2018-06-07
+$DPHOTO['ver'] = "0.3"; // didim99 2018-06-13
 $DPHOTO['rootdir'] = __DIR__;
 $DPHOTO['log_dir'] = $DPHOTO['rootdir']. "/log";
 $DPHOTO['log_file'] = $DPHOTO['log_dir']. "/$datetime.log";
@@ -31,13 +31,13 @@ $DPHOTO['attach_max_cnt'] = 200;
   Ключ доступа пользователя, как его получить описано здесь:
   https://www.pandoge.com/stati_i_sovety/poluchenie-klyucha-dostupa-access_token-dlya-api-vkontakte
   Достаточно прав доступа (scope): photos,docs,pages,wall,groups,messages,offline
-  (возможно и меньше, но с этими точно работает.)
+  (возможно и меньше, но с этими точно работает)
 */
 $DPHOTO['access_token'] = "";
 /*
-  id собеседника или беседы (параметр sel в адресной строке, для бесед - без первого имвола 'c')
+  id собеседника или беседы (параметр sel в адресной строке, для бесед включая первый символ 'c')
   Несколько значений перечисляются через запятую.
-    пример: $DPHOTO['dialogs'] = [15, 47, 175568347];
+    пример: $DPHOTO['dialogs'] = ["c15", "c47", 175568347];
 */
 $DPHOTO['dialogs'] = [];
 
