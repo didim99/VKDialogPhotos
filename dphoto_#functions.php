@@ -6,26 +6,6 @@
 	DESCRIPTION: Скрипт для загрузки изображений из диалогов и бесед ВКонтакте посредством VK API
 */
 
-/* debug timer example
-
-$time1 = (float) microtime(true); //debug timer start
-
-$time2 = (float) microtime(true); //debug timer stop
-$time = number_format($time2-$time1, 6);
-print_pre2 ($time, "time");
-
-RAM counter example
-
-$mem0 = memory_get_usage(); //DEBUG: memory usage counter start
-
-$mem1 = memory_get_usage(); //DEBUG: memory usage counter stop
-//DEBUG: memory usage counter print
-print_pre2 (format_bytes($mem1 - $mem0, 4), "RAM");
-
-*/
-
-
-
 // ######## ОБЩЕГО НАЗНАЧЕНИЯ ################################
 
 // Переводит время из числового формата в строковый
